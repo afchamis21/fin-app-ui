@@ -122,7 +122,7 @@ function resetForm() {
   entryName.value = undefined;
   entryValue.value = undefined;
   categories.value = [];
-  entryDate.value = getToday();
+  // entryDate.value = getToday();
   editEntryId.value = undefined;
   derivedEntries.value = []
 }

@@ -19,8 +19,7 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       isLoadingCategories.value = true
       const { data } = await getCategories()
-      categories.value = data.payload
-      toast.success("Categorias carregadas com sucesso!");
+      categories.value = data.payload.sort((a, b) => a.label.localeCompare(b.label))
     } catch {
       toast.warning("Erro buscando categorias")
     } finally {

@@ -31,8 +31,8 @@ const categoryTypeMap = computed(() => {
       <span class="text-xs flex-[0.8]">
         {{ formatDate(entry.date, 'dd/MM/yyyy', { locale: ptBR }) }}
       </span>
-      <span class="flex-1">
-        <CategoryDisplay :entry="entry" size="medium" />
+      <span class="flex-1 relative">
+        <CategoryDisplay :categories="entry.categories" size="medium" />
       </span>
       <span class="flex-1 whitespace-nowrap">
         {{ NumberUtil.formatCurrency(entry.value) }}

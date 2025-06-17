@@ -23,8 +23,7 @@ const dashBoardStore = useDashBoardStore()
           <input type="month" name="endDt" id="endDt" class="flex-1 p-2 text-gray-800 bg-gray-200 shadow border-2 border-transparent rounded
             focus:outline-0 focus:border-2 focus:border-indigo-300 focus:bg-indigo-100 focus:text-indigo-400
             hover:bg-indigo-100 hover:text-indigo-400 transition-all" :value="dashBoardStore.periodEnd"
-            :min="dashBoardStore.periodStart" :max="new Date().toISOString().split('T')[0].slice(0, 7)"
-            @change="dashBoardStore.setPeriodEnd(($event.target as any).value)">
+            :min="dashBoardStore.periodStart" @change="dashBoardStore.setPeriodEnd(($event.target as any).value)">
         </div>
       </form>
     </header>

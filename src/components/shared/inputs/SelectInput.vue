@@ -48,13 +48,13 @@ onUnmounted(() => {
   <div
     class="flex flex-row-reverse w-full items-center gap-2 has-focus-within:text-indigo-400 has-hover:text-indigo-400">
     <select v-model="modelValue" :id="id"
-      class="flex-1 w-full p-2 bg-gray-200 shadow border-2 rounded focus:outline-0 focus:border-indigo-300 focus:bg-indigo-100 transition-all"
+      class="text-sm flex-1 w-full p-2 bg-gray-200 shadow border-2 rounded focus:outline-0 focus:border-indigo-300 focus:bg-indigo-100 transition-all"
       :class="{ 'border-red-400': isTouched && !props.valid, 'border-transparent': !isTouched || props.valid }">
 
       <!-- Opção inicial -->
       <option :value="undefined" :disabled="!props.enableUndefined" class="bg-gray-300 cursor-not-allowed">{{
         props.label || 'Escolha uma opção'
-        }}
+      }}
       </option>
 
       <!-- Gerando as opções dinamicamente -->

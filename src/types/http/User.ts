@@ -12,3 +12,10 @@ export type IUpdateUserRequest = {
   password: string
   confirmPassword: string
 }
+
+export type IRegisterUserRequest = {
+  email: string
+  username: string
+  password: string
+  confirmPassword: string
+}

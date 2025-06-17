@@ -3,6 +3,7 @@ import { eventBus } from '@/event-bus/event-bus';
 import { useCategoryStore } from '@/stores/category';
 import type { ICategory } from '@/types/ICategory';
 import { CategoryUtil } from '@/util/CategoryUtil';
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import { ChevronDownIcon, XMarkIcon } from '@heroicons/vue/24/solid';
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
@@ -14,12 +15,13 @@ const props = defineProps<{
 
 const emit = defineEmits<{ (name: 'change', value: ICategory[]): void }>();
 
+const filter = ref('')
 const selected = ref<ICategory[]>([])
 const open = ref(false)
 
 const categoryStore = useCategoryStore()
 const displayCategories = computed(() => {
-  return categoryStore.activeCategories.filter(({ type }) => props.mode === 'BOTH' || props.mode === type)
+  return categoryStore.activeCategories.filter(({ type, label }) => (props.mode === 'BOTH' || props.mode === type) && label.toLocaleLowerCase().startsWith(filter.value.toLocaleLowerCase()))
 })
 
 const toggleOpen = () => {
@@ -48,6 +50,7 @@ const handleClick = (value: ICategory) => {
 
 const reset = () => {
   selected.value = []
+  resetFilter()
 }
 
 watch(selected, (newVal) => {
@@ -86,6 +89,10 @@ const selectListener = eventBus.on('select-categories', ({ selectId, categories 
   })
 })
 
+const resetFilter = () => {
+  filter.value = ''
+}
+
 onMounted(() => {
   document.addEventListener('mousedown', onClickOutside)
   document.addEventListener('keydown', onEscape)
@@ -123,19 +130,31 @@ onUnmounted(() => {
       <XMarkIcon v-if="selected.length" class="size-4 absolute right-2 top-1 hover:text-red-500 transition-colors"
         title="reset" @click="reset" />
     </div>
-    <ul :hidden="!open" class="flex-1 w-full absolute -bottom-2 translate-y-full p-2 max-h-40 overflow-auto
-      bg-gray-200 shadow rounded transition-all cursor-default divide-y divide-gray-400">
-      <li v-for="category in displayCategories" :key="category.id"
-        class="group py-2 text-sm w-full flex justify-between gap-2"
-        :class="{ 'text-gray-700 hover:text-red-500': isSelected(category), 'hover:text-indigo-400': !isSelected(category) }"
-        @click="handleClick(category)">
-        <span>
-          {{ category.label }}
-        </span>
-        <span class="opacity-0 group-hover:opacity-100 transition-all">
-          {{ isSelected(category) ? 'Remover' : 'Selecionar' }}
-        </span>
-      </li>
-    </ul>
+    <div :hidden="!open" class="flex-1 w-full absolute -bottom-2 translate-y-full p-2 max-h-40 overflow-auto
+    bg-gray-200 shadow rounded transition-all cursor-default ">
+      <div class="p-2 flex gap-2 border-b-2 w-full border-gray-500 items-center
+        has-hover:border-indigo-400 has-focus-within:border-indigo-400
+        hover:border-indigo-400 transition-colors group">
+        <label for="category_filter" class="group-hover:text-indigo-400 transition-colors">
+          <MagnifyingGlassIcon class="size-4" />
+        </label>
+        <input class="w-full focus:outline-0 focus:border-indigo-300" name="category_filter" id="category_filter"
+          type="search" placeholder="Buscar..." v-model="filter" />
+      </div>
+      <ul class="divide-y divide-gray-400">
+        <li v-for="category in displayCategories" :key="category.id"
+          class="group py-2 text-sm w-full flex justify-between gap-2"
+          :class="{ 'text-gray-700 hover:text-red-500': isSelected(category), 'hover:text-indigo-400': !isSelected(category) }"
+          @click="handleClick(category)">
+          <span>
+            {{ category.label }}
+          </span>
+          <span class="opacity-0 group-hover:opacity-100 transition-all">
+            {{ isSelected(category) ? 'Remover' : 'Selecionar' }}
+          </span>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </template>

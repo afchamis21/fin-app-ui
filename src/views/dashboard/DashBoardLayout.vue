@@ -7,6 +7,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 import { onMounted, ref, watch } from 'vue';
 import { useCategoryStore } from '@/stores/category';
 import { toast, type Id } from 'vue3-toastify';
+import AssistantChat from '@/components/chat/AssistantChat.vue';
 
 const dashBoardStore = useDashBoardStore()
 const categoryStore = useCategoryStore()
@@ -50,7 +51,7 @@ watch(isLoading, (loading) => {
             {{ NumberUtil.formatCurrency(dashBoardStore.totalIn) }}
           </span>
           <span :hidden="showTotals">
-            R$ {{ "-".repeat(String(NumberUtil.formatCurrency(dashBoardStore.totalIn)).length - 3) }}
+            R$ ●●●
           </span>
         </div>
         <div title="Saídas" class="py-2 px-4 rounded-md shadow font-medium text-sm bg-red-50 text-red-500 flex gap-2">
@@ -59,7 +60,7 @@ watch(isLoading, (loading) => {
             {{ NumberUtil.formatCurrency(dashBoardStore.totalOut) }}
           </span>
           <span :hidden="showTotals">
-            R$ {{ "-".repeat(String(NumberUtil.formatCurrency(dashBoardStore.totalOut)).length - 3) }}
+            R$ ●●●
           </span>
         </div>
         <button :title="showTotals ? 'Esconder totais' : 'Mostrar totais'" @click="toggleVisibility">
@@ -67,7 +68,7 @@ watch(isLoading, (loading) => {
           <EyeSlashIcon v-else class="size-6" />
         </button>
       </header>
-      <div class="pl-15 md:pl-20 max-h-[calc(100dvh-4rem)] h-full">
+      <div class="pl-15 md:pl-20 max-h-[calc(100dvh-4rem)] h-full relative">
         <main class="pl-7 pr-2 py-10 md:p-10 overflow-auto max-w-[1500px] m-auto h-full">
           <RouterView />
         </main>
@@ -75,5 +76,6 @@ watch(isLoading, (loading) => {
     </div>
 
     <DashboardAside />
+    <AssistantChat />
   </div>
 </template>

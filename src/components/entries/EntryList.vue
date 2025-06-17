@@ -8,13 +8,17 @@ import { NumberUtil } from '@/util/NumberUtil';
 import { useEntryStore } from '@/stores/entry';
 import { CategoryUtil } from '@/util/CategoryUtil';
 import CategoryDisplay from '../shared/CategoryDisplay.vue';
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/vue/24/solid';
 
 const entryStore = useEntryStore()
+
+const sortMode = ref<'ASC' | 'DESC'>('ASC')
+// const monthsToShow: string[] = [] // TODO endpoint to get all labels with data to show
 
 const entries = computed(() => {
   const copy = [...entryStore.allEntries]
 
-  return copy.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  return copy.sort((a, b) => (new Date(a.date).getTime() - new Date(b.date).getTime()) * (sortMode.value === 'ASC' ? 1 : -1))
 })
 
 const modalRef = ref<InstanceType<typeof EntryActionsModal> | null>(null);
@@ -42,7 +46,6 @@ const categoryTypeMap = computed(() => {
   return res
 })
 
-
 // TODO Add Controls (filter by month and category) Still not sure how I'll do this
 </script>
 
@@ -53,12 +56,18 @@ const categoryTypeMap = computed(() => {
 
     <div v-else class="mt-4 max-h-[700px] overflow-y-auto rounded-lg">
       <table class="table-auto w-full">
-        <thead class="bg-gray-300 sticky top-0">
+        <thead class="bg-gray-300 sticky top-0 z-10">
           <tr>
             <th class="px-4 py-2 text-center w-1/5 whitespace-nowrap">Categoria</th>
             <th class="px-4 py-2 text-center">Nome</th>
             <th class="px-4 py-2 text-center whitespace-nowrap">Valor</th>
-            <th class="px-4 py-2 text-center">Data</th>
+            <th class="px-4 py-2 text-center">
+              <button class="flex items-center gap-2" @click="() => sortMode = sortMode === 'ASC' ? 'DESC' : 'ASC'">
+                Data
+                <ArrowDownIcon class="size-4" v-if="sortMode === 'DESC'" />
+                <ArrowUpIcon class="size-4" v-else />
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-400">
@@ -69,7 +78,7 @@ const categoryTypeMap = computed(() => {
               'hover:bg-gray-300': categoryTypeMap[entry.id] === 'MIXED'
             }" @click="modalRef?.openModal(entry)">
             <td class="px-4 py-2 whitespace-nowrap w-1/5 max-w-max align-middle">
-              <CategoryDisplay :entry="entry" size="medium" />
+              <CategoryDisplay :categories="entry.categories" size="medium" />
             </td>
             <td class="px-4 py-2 align-middle text-ellipsis overflow-hidden whitespace-nowrap" :title="entry.label">
               {{ entry.label }}

@@ -52,7 +52,7 @@ const chartData: ComputedRef<ChartData<'bar'>> = computed(() => {
 
   return {
     labels,
-    datasets: Object.values(datasets).filter(val => val.data.every(v => v !== 0))
+    datasets: Object.values(datasets).filter(val => val.data.some(v => v !== 0))
   }
 })
 

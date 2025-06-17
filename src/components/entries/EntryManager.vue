@@ -39,12 +39,12 @@ function handleEdit(entry: IEntry) {
 
 <template>
   <FullScreenLoader :open="isLoadingData" />
-  <div class="flex flex-col gap-5 h-full">
+  <div class="flex flex-col gap-5 h-full overflow-hidden">
     <header class="flex justify-between flex-wrap flex-col md:flex-row gap-4">
       <h2 class="text-2xl font-medium">Entradas</h2>
     </header>
 
-    <section class="overflow-auto flex-1 flex gap-4 flex-col md:flex-row-reverse pb-2 flex-wrap">
+    <section class="overflow-hidden flex-1 flex gap-4 flex-col md:flex-row-reverse pb-2 flex-wrap">
       <EntryForm />
       <EntryList @delete="handleDelete" @edit="handleEdit" />
     </section>

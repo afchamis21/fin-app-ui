@@ -1,10 +1,11 @@
 import { login } from "@/api/auth/login";
 import { logout } from "@/api/auth/logout";
 import { refresh } from "@/api/auth/refresh";
+import { register } from "@/api/auth/register";
 import { fetchUser } from "@/api/user/get-user";
 import { updateUser } from "@/api/user/update-user";
 import type { ILoginRequest } from "@/types/http/Auth";
-import type { IUpdateUserRequest } from "@/types/http/User";
+import type { IRegisterUserRequest, IUpdateUserRequest } from "@/types/http/User";
 import type { IUser } from "@/types/IUser";
 import { LocalStorageUtil } from "@/util/LocalStorageUtil";
 import { SessionStorageUtil } from "@/util/SessionStorageUtil";
@@ -153,8 +154,15 @@ export const useAuthStore = defineStore('auth', () => {
       isLoadingUser.value = false
       return false
     }
-
   }
 
-  return { doLogin, doLogout, startTokenRefresh, isLoggedIn, refreshAccessToken, user, isLoadingUser, doUpdateUser };
+  const doRegisterUser = async (req: IRegisterUserRequest) => {
+    const { data } = await register(req)
+
+    if (data.payload) {
+      toast.info("Usuário cadastrado com sucesso")
+    }
+  }
+
+  return { doLogin, doLogout, startTokenRefresh, isLoggedIn, refreshAccessToken, user, isLoadingUser, doUpdateUser, doRegisterUser };
 });

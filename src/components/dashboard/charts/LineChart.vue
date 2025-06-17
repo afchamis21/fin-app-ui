@@ -112,8 +112,6 @@ const chartOptions: ComputedRef = computed(() => {
     }
   } as ChartOptions<'line'>
 })
-
-// TODO Comparação de categoria em linhas para ver a progressão
 </script>
 
 <template>

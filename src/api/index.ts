@@ -7,7 +7,7 @@ const baseURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
   baseURL,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -42,7 +42,9 @@ api.interceptors.response.use(
 
       if (data?.messages?.length) {
         data.messages.forEach((message) => {
-          toast.error(message);
+          toast.error(message, {
+            autoClose: 10_000
+          });
         });
       }
 

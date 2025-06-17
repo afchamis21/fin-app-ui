@@ -78,7 +78,7 @@ function logout() {
           <template #icon>
             <Cog6ToothIcon class="size-4" />
           </template>
-          TODO depois eu faço
+          TODO Fazer settings de tema (? Acho que ta mt acoplado e vai dar um trampo), gráficos etc.
           <template #text>
             Configurações
           </template>

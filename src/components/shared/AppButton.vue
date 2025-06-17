@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<
     type: 'button' | 'submit' | 'reset',
     disabled?: boolean,
     center?: boolean,
-    variant?: 'primary' | 'warning' | 'secondary'
+    variant?: 'primary' | 'warning' | 'secondary' | 'chat'
   }>(), {
   variant: 'primary'
 })
@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<
       'bg-indigo-100 text-indigo-400 not-disabled:hover:bg-indigo-50': props.variant === 'primary',
       'bg-red-50 text-red-500 not-disabled:hover:bg-red-200': props.variant === 'warning',
       'bg-transparent not-disabled:hover:underline': props.variant === 'secondary',
+      'bg-green-200 text-green-500': props.variant === 'chat',
     }">
     <div class="flex items-center gap-2" :class="{ 'w-full justify-center': center }">
       <slot name="icon"></slot>

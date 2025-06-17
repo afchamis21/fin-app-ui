@@ -122,7 +122,6 @@ export const useEntryStore = defineStore('entry', () => {
         entriesByDate.value.set(dateKey, entries)
       });
 
-      toast.success("Entradas carregadas com sucesso!")
       return fetchedEntries;
     } catch {
       toast.warning("Erro carregando entradas!")
@@ -149,7 +148,6 @@ export const useEntryStore = defineStore('entry', () => {
         profitData.value[k] = data.payload.data[k];
       });
 
-      toast.success("Dados de lucro carregados com sucesso!");
     } catch {
       toast.error("Erro ao carregar dados de lucro!");
     }

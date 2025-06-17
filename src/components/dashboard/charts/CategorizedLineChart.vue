@@ -59,7 +59,7 @@ const chartData: ComputedRef = computed<ChartData<'line'>>(() => {
 
   return {
     labels,
-    datasets: Object.values(datasets)
+    datasets: Object.values(datasets).filter(cat => cat.data.some(d => d))
   }
 })
 

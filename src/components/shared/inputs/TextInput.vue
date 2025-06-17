@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<{
   errors?: string[]
 }>(), {
   labelDisplay: 'SIDE',
-  type: 'email',
+  type: 'text',
 });
 
 const emit = defineEmits<{ (name: 'change', value?: string): void }>();
