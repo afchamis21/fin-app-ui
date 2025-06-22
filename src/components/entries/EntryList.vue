@@ -9,6 +9,7 @@ import { useEntryStore } from '@/stores/entry';
 import { CategoryUtil } from '@/util/CategoryUtil';
 import CategoryDisplay from '../shared/CategoryDisplay.vue';
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/vue/24/solid';
+import { DateUtil } from '@/util/DateUtil';
 
 const entryStore = useEntryStore()
 
@@ -18,7 +19,7 @@ const sortMode = ref<'ASC' | 'DESC'>('ASC')
 const entries = computed(() => {
   const copy = [...entryStore.allEntries]
 
-  return copy.sort((a, b) => (new Date(a.date).getTime() - new Date(b.date).getTime()) * (sortMode.value === 'ASC' ? 1 : -1))
+  return copy.sort((a, b) => DateUtil.sortDateFn(a.date, b.date, sortMode.value))
 })
 
 const modalRef = ref<InstanceType<typeof EntryActionsModal> | null>(null);

@@ -2,12 +2,24 @@ import { getChat } from "@/api/chat/get-chat";
 import { sendChatMessage } from "@/api/chat/send-chat-message";
 import type { IChatMessage } from "@/types/IChatMessage";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { toast } from "vue3-toastify";
+import { useAuthStore } from "./auth";
 
 export const useChatStore = defineStore('chat', () => {
   const isLoadingChat = ref(false)
   const messages = ref<IChatMessage[]>([])
+
+  const invalidate = () => {
+    messages.value = []
+  }
+
+  const authStore = useAuthStore()
+  watch(() => authStore.user, (val) => {
+    if (!val) {
+      invalidate()
+    }
+  })
 
   const fetchChat = async () => {
     isLoadingChat.value = true;

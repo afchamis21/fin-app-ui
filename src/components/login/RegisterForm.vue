@@ -66,13 +66,14 @@ const handleRegister = async () => {
   if (!isFormValid.value) {
     return;
   }
+  isRegistering.value = true
 
   authStore.doRegisterUser({
     username: username.value!,
     email: email.value!,
     password: password.value!,
     confirmPassword: confirmPassword.value!
-  }).then(() => emits('go-to-login'))
+  }).then(() => emits('go-to-login')).finally(() => isRegistering.value = false)
 }
 
 </script>

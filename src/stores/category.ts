@@ -6,12 +6,24 @@ import { updateCategoryStatus } from "@/api/category/update-category-status";
 import type { ICreateCategoryRequest } from "@/types/http/Category";
 import type { ICategory } from "@/types/ICategory";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { toast } from "vue3-toastify";
+import { useAuthStore } from "./auth";
 
 export const useCategoryStore = defineStore('category', () => {
+  const authStore = useAuthStore()
   const categories = ref([] as ICategory[])
   const isLoadingCategories = ref(false)
+
+  const invalidate = () => {
+    categories.value = []
+  }
+
+  watch(() => authStore.user, (val) => {
+    if (!val) {
+      invalidate()
+    }
+  })
 
   const activeCategories = computed(() => categories.value.filter(cat => cat.active))
 

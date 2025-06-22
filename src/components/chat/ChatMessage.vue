@@ -98,7 +98,7 @@ onMounted(async () => {
 </style>
 
 <style lang="css">
-.message-content p {
+.message-content p:not(:last-of-type) {
   margin-bottom: 0.75rem;
 }
 

@@ -66,8 +66,7 @@ export const useDashBoardStore = defineStore("dashboard", () => {
   })
 
   const displayEntriesFlatSorted = computed(() => {
-    const copy = [...displayEntriesFlat.value]
-    return entrySortMode.value === 'ASC' ? copy : copy.reverse()
+    return [...displayEntriesFlat.value].sort((a, b) => DateUtil.sortDateFn(a.date, b.date, entrySortMode.value))
   })
 
   const totalIn = computed(() =>

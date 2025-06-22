@@ -7,13 +7,26 @@ import type { ICreateEntryRequest, IUpdateEntryRequest } from "@/types/http/Entr
 import type { IEntry } from "@/types/IEntry";
 import { DateUtil } from "@/util/DateUtil";
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { toast } from "vue3-toastify";
+import { useAuthStore } from "./auth";
 
 export const useEntryStore = defineStore('entry', () => {
   const entriesByDate = ref(new Map<string, IEntry[]>());
   const profitData = ref<Record<string, number>>({});
   const isLoadingEntries = ref(false)
+
+  const invalidate = () => {
+    entriesByDate.value.clear()
+    profitData.value = {}
+  }
+
+  const authStore = useAuthStore()
+  watch(() => authStore.user, (val) => {
+    if (!val) {
+      invalidate()
+    }
+  })
 
   const allEntries = computed(() => {
     return Array.from(entriesByDate.value.values()).flat();

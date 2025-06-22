@@ -84,6 +84,7 @@ watch(isChatOpen, async (isOpen) => {
 
     <form class="flex gap-4 w-full" @submit.prevent="sendMessage">
       <textarea v-model="message" placeholder="Digite sua mensagem..." :disabled="chatStore.isLoadingChat"
+        @keydown.enter.exact="sendMessage"
         class="bg-indigo-100 text-sm min-h-20 rounded-md p-3 w-full resize-y focus:outline-0 border-2
         not-disabled:hover:border-indigo-200 not-disabled:focus:border-indigo-200 border-transparent disabled:cursor-not-allowed transition-colors" />
       <AppButton type="submit" :disabled="!isMessageValid || chatStore.isLoadingChat">

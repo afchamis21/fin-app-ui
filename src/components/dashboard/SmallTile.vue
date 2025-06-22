@@ -13,7 +13,7 @@ type TileOptions = 'DOUGHNUT_OUT' | 'DOUGHNUT_IN' | 'DOUGHNUT_BOTH' | 'SUMMARY' 
 
 const titles: Record<TileOptions, string> = {
   CATEGORY_GOALS: 'Analise de Metas',
-  SUMMARY: 'Historico de Entradas',
+  SUMMARY: 'Histórico de Entradas',
   DOUGHNUT_BOTH: 'Entradas/Saídas',
   DOUGHNUT_OUT: 'Saídas',
   DOUGHNUT_IN: 'Entradas',

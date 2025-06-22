@@ -35,4 +35,8 @@ export class DateUtil {
   static onFirstDay(newStartDate: Date): Date {
     return new Date(newStartDate.getFullYear(), newStartDate.getMonth(), 1);
   }
+
+  static sortDateFn(a: Date | string, b: Date | string, sortMode: "ASC" | "DESC" = "ASC"): number {
+    return (new Date(a).getTime() - new Date(b).getTime()) * (sortMode === 'ASC' ? 1 : -1)
+  }
 }
