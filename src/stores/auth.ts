@@ -1,3 +1,4 @@
+import { getOneTimeCode } from "@/api/auth/get-one-time-code";
 import { login } from "@/api/auth/login";
 import { logout } from "@/api/auth/logout";
 import { refresh } from "@/api/auth/refresh";
@@ -164,5 +165,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { doLogin, doLogout, startTokenRefresh, isLoggedIn, refreshAccessToken, user, isLoadingUser, doUpdateUser, doRegisterUser };
+  const getOneTimeToken = async () => {
+    const { data } = await getOneTimeCode()
+    return data.payload.accessToken
+  }
+
+  return {
+    doLogin, doLogout, startTokenRefresh, isLoggedIn, refreshAccessToken,
+    user, isLoadingUser, doUpdateUser, doRegisterUser, getOneTimeToken
+  };
 });

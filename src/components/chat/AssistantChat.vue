@@ -4,6 +4,7 @@ import AppButton from '@/components/shared/AppButton.vue';
 import { onMounted, ref, watch, nextTick, computed } from 'vue';
 import ChatMessage from './ChatMessage.vue';
 import { useChatStore } from '@/stores/chat';
+import { sseEventBus } from '@/event-bus/event-bus';
 
 const chatStore = useChatStore()
 
@@ -22,8 +23,12 @@ const closeChat = () => {
   isChatOpen.value = false;
 }
 
-onMounted(() => {
+onMounted(async () => {
   chatStore.fetchChat()
+  sseEventBus.on("NEW_ENTRIES", (ev) => {
+    console.log("Evento recebido!!!", ev)
+    alert("Evento recebido!")
+  })
 })
 
 const sendMessage = () => {

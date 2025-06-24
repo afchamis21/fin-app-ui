@@ -1,9 +1,9 @@
 import type { ICategory } from "@/types/ICategory"
 import type { IEntry } from "@/types/IEntry"
 
-type Event = Record<string, unknown>
+type EbEvent = Record<string, unknown>
 
-export class EventBus<Events extends Event> {
+export class EventBus<Events extends EbEvent> {
   private subscriptions: Map<string, (payload: unknown) => void> = new Map()
 
   private counter = 0
@@ -36,3 +36,11 @@ type EventMap = {
 }
 
 export const eventBus = new EventBus<EventMap>()
+
+export const sseEvents = ["NEW_ENTRIES"] as const
+type SseEvent = typeof sseEvents[number]
+
+type SseEventMap = {
+  [K in SseEvent]: { event: Event }
+}
+export const sseEventBus = new EventBus<SseEventMap>()

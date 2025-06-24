@@ -10,6 +10,7 @@ import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { useAuthStore } from "./auth";
+import type { ICategory } from "@/types/ICategory";
 
 export const useEntryStore = defineStore('entry', () => {
   const entriesByDate = ref(new Map<string, IEntry[]>());
@@ -166,9 +167,28 @@ export const useEntryStore = defineStore('entry', () => {
     }
   };
 
+  const updateCategory = (category: ICategory) => {
+    for (const entries of entriesByDate.value.values()) {
+      for (const entry of entries) {
+        const categoryIndex = entry.categories.findIndex(cat => cat.id === category.id);
+        if (categoryIndex !== -1) {
+          entry.categories[categoryIndex] = category;
+        }
+      }
+    }
+  };
+
+  const deleteCategory = (categoryId: number) => {
+    for (const entries of entriesByDate.value.values()) {
+      for (const entry of entries) {
+        entry.categories = entry.categories.filter(cat => cat.id !== categoryId);
+      }
+    }
+  };
+
   return {
     entriesByDate, allEntries, addEntries, saveEntry,
     getEntries, profitData, fetchProfitData, removeEntry,
-    isLoadingEntries
+    updateCategory, deleteCategory, isLoadingEntries
   };
 });

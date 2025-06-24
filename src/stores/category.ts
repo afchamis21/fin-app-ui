@@ -9,9 +9,11 @@ import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
 import { toast } from "vue3-toastify";
 import { useAuthStore } from "./auth";
+import { useEntryStore } from "./entry";
 
 export const useCategoryStore = defineStore('category', () => {
   const authStore = useAuthStore()
+  const entryStore = useEntryStore()
   const categories = ref([] as ICategory[])
   const isLoadingCategories = ref(false)
 
@@ -58,6 +60,9 @@ export const useCategoryStore = defineStore('category', () => {
         }
         return cat;
       });
+
+      entryStore.updateCategory(data.payload)
+
       toast.success("Categoria editada com sucesso!");
     } catch {
       toast.error("Erro salvando categoria");
@@ -68,6 +73,9 @@ export const useCategoryStore = defineStore('category', () => {
     try {
       await deleteCategory(id);
       categories.value = categories.value.filter(category => category.id !== id);
+
+      entryStore.deleteCategory(id)
+
       toast.success("Categoria removida com sucesso!");
     } catch {
       toast.error("Erro deletando categoria");
